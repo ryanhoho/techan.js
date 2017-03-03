@@ -185,11 +185,12 @@ module.exports = function(d3_svg_line, d3_select) {
             // Transform the data to values for each annotation, only if we have accessor and scale
             var y = argumentLength > 3 ? scale(accessor(d)) : null;
 
-            return annotations.map(function(annotation) {
+            var z = annotations.map(function(annotation) {
               var value = argumentLength > 3 ? annotation.axis().scale().invert(y) : null;
               // Only ever 1 data point per annotation
               return [{ value: value }];
             });
+            return z;
           }
         );
 
@@ -212,6 +213,38 @@ module.exports = function(d3_svg_line, d3_select) {
       refresh: function(annotations) {
         return function() {
           annotations[this.__annotation__].refresh(d3_select(this));
+        };
+      }
+    },
+
+    handicap: {
+      append: function(selection, handicap, clazz, accessor, scale) {
+        var argumentsLength = arguments.length;
+
+        var handicapSelection = selection.append('g').attr('class', 'handicap ' + clazz)
+                                  .selectAll('g').data(function(d){
+                                      var y = argumentsLength > 3 ? scale(accessor(d)) : null;
+                                      var z = handicap ? [[{ value: argumentsLength > 3 ? handicap.axis().scale.invert(y) : null}]] : [];
+                                      return z;
+                                  });
+
+        handicapSelection.enter().append('g').attr('class', function(d, i) {return i;})
+        .each(function(d, i){
+          handicap(d3_select(this));
+        });
+
+      },
+      update: function(handicap, value, xPos){
+        return function(d) {
+          this.__xPos__ = xPos;
+          d[0].value = value;
+        };
+      },
+      refresh: function(handicap){
+        return function(){
+          if(handicap){
+            handicap.refresh(d3_select(this));
+          }
         };
       }
     }

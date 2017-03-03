@@ -296,38 +296,38 @@ module.exports = function(d3_scale_linear, d3_time, d3_bisect, techan_util_rebin
         864e5   // 1-day
       ];
 
-  var dayFormat = d3_time.format('%b %e'),
+  var dayFormat = d3_time.format('%m-%d'),
       yearFormat = d3_time.format.multi([
-        ['%b %Y', function(d) { return d.getMonth(); }],
+        ['%Y-%m', function(d) { return d.getMonth(); }],
         ['%Y', function() { return true; }]
       ]),
       intradayFormat = d3_time.format.multi([
         [":%S", function(d) { return d.getSeconds(); }],
-        ["%I:%M", function(d) { return d.getMinutes(); }],
-        ["%I %p", function () { return true; }]
+        ["%H:%M", function(d) { return d.getMinutes(); }],
+        ["%H:%M", function () { return true; }]
       ]),
       genericFormat = [d3_time.second, 1, d3_time.format.multi([
           [":%S", function(d) { return d.getSeconds(); }],
-          ["%I:%M", function(d) { return d.getMinutes(); }],
-          ["%I %p", function(d) { return d.getHours(); }],
+          ["%H:%M", function(d) { return d.getMinutes(); }],
+          ["%H:%M", function(d) { return d.getHours(); }],
           ['%b %e', function() { return true; }]
         ])
       ];
 
-  var dayFormatUtc = d3_time.format.utc('%b %e'),
+  var dayFormatUtc = d3_time.format.utc('%m-%d'),
       yearFormatUtc = d3_time.format.utc.multi([
-        ['%b %Y', function(d) { return d.getUTCMonth(); }],
+        ['%Y-%m', function(d) { return d.getUTCMonth(); }],
         ['%Y', function() { return true; }]
       ]),
       intradayFormatUtc = d3_time.format.utc.multi([
         [":%S", function(d) { return d.getUTCSeconds(); }],
-        ["%I:%M", function(d) { return d.getUTCMinutes(); }],
-        ["%I %p", function () { return true; }]
+        ["%H:%M", function(d) { return d.getUTCMinutes(); }],
+        ["%H:%M", function () { return true; }]
       ]),
       genericFormatUtc = [d3_time.second, 1, d3_time.format.utc.multi([
           [":%S", function(d) { return d.getUTCSeconds(); }],
-          ["%I:%M", function(d) { return d.getUTCMinutes(); }],
-          ["%I %p", function(d) { return d.getUTCHours(); }],
+          ["%H:%M", function(d) { return d.getUTCMinutes(); }],
+          ["%H:%M", function(d) { return d.getUTCHours(); }],
           ['%b %e', function() { return true; }]
         ])
       ];

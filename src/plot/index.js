@@ -7,6 +7,7 @@ module.exports = function(d3) {
       plotMixin = require('./plotmixin')(d3.scale.linear, d3.functor, scale.financetime, plot.barWidth),
       line = require('./line'),
       axisannotation = require('./axisannotation')(d3.svg.axis, accessor.value, plot, plotMixin),
+      handicap = require('./handicap')(d3.svg.axis, accessor.value, plot, plotMixin, d3.select, d3.map),
       svg = require('../svg')(d3);
 
   return {
@@ -15,7 +16,7 @@ module.exports = function(d3) {
     atrtrailingstop: require('./atrtrailingstop')(accessor.atrtrailingstop, plot, plotMixin),
     axisannotation: axisannotation,
     candlestick: require('./candlestick')(d3.scale.linear, d3.extent, accessor.ohlc, plot, plotMixin),
-    crosshair: require('./crosshair')(d3.select, d3_event, d3.mouse, d3.dispatch, plot, plotMixin),
+    crosshair: require('./crosshair')(d3.select, d3_event, d3.mouse, d3.dispatch, plot, plotMixin, d3.map),
     ema: line(accessor.value, plot, plotMixin),
     ichimoku: require('./ichimoku')(d3.svg.area, accessor.ichimoku, plot, plotMixin),
     ohlc: require('./ohlc')(d3.scale.linear, d3.extent, accessor.ohlc, plot, plotMixin),
@@ -35,7 +36,9 @@ module.exports = function(d3) {
     stochastic: require('./stochastic')(accessor.stochastic, plot, plotMixin),
     williams: require('./williams')(accessor.williams, plot, plotMixin),
     bollinger: require('./bollinger')(accessor.bollinger, plot, plotMixin),
-    vwap: line(accessor.value, plot, plotMixin)
+    vwap: line(accessor.value, plot, plotMixin),
+    handicap: handicap,
+    avgprice: line(accessor.avgprice, plot, plotMixin)
   };
 };
 

@@ -1,6 +1,6 @@
 /*
  TechanJS v0.6.0
- (c) 2014 - 2015 Andre Dumas | https://github.com/andredumas/techan.js
+ (c) 2014 - 2016 Andre Dumas | https://github.com/andredumas/techan.js
 */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.techan = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';module.exports='0.6.0';
@@ -56,6 +56,121 @@ module.exports = function() {
 };
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+module.exports = function() {
+  var date = function(d) { return d.date; },
+      open = function(d) { return d.open; },
+      high = function(d) { return d.high; },
+      low = function(d) { return d.low; },
+      close = function(d) { return d.close;},
+      volume = function(d) { return d.volume; },
+      avgprice = function(d) {return d.avgprice; },
+      amount = function(d) { return d.amount; },
+      amountTotal = function(d) { return d.amountTotal; },
+      volumeTotal = function(d) { return d.volumeTotal; },
+      updown = function(d) { return d.updown; },
+      updownPercent = function(d) { return d.updownPercent; };
+
+  function accessor(d) {
+    return accessor.c(d);
+  }
+
+  // TODO use d3.rebind to obtain this from 'super class'
+  accessor.date = function(_) {
+    if (!arguments.length) return date;
+    date = _;
+    return bind();
+  };
+
+  accessor.open = function(_) {
+    if (!arguments.length) return open;
+    open = _;
+    return bind();
+  };
+
+  accessor.high = function(_) {
+    if (!arguments.length) return high;
+    high = _;
+    return bind();
+  };
+
+  accessor.low = function(_) {
+    if (!arguments.length) return low;
+    low = _;
+    return bind();
+  };
+
+  accessor.close = function(_) {
+    if (!arguments.length) return close;
+    close = _;
+    return bind();
+  };
+
+  accessor.volume = function(_) {
+    if (!arguments.length) return volume;
+    volume = _;
+    return bind();
+  };
+
+  accessor.avgprice = function(_){
+    if(!arguments.length) return avgprice;
+    avgprice = _;
+    return bind();
+  };
+
+  accessor.amount = function(_){
+
+    if(!arguments.length) return amount;
+    amount = _;
+    return bind();
+  };
+
+  accessor.amountTotal = function(_){
+    if(!arguments.length) return amountTotal;
+    amountTotal = _;
+    return bind();
+  };
+
+  accessor.volumeTotal = function(_){
+    if(!arguments.length) return volumeTotal;
+    volumeTotal = _;
+    return bind();
+  };
+
+  accessor.updown = function(_){
+    if(!arguments.length) return updown;
+    updown = _;
+    return bind();
+  };
+
+  accessor.updownPercent = function(_){
+    if(!arguments.length) return updownPercent;
+    updownPercent = _;
+    return bind();
+  };
+
+  function bind() {
+    // TODO These methods will need to know if the variables are functions or values and execute as such
+    accessor.d = date;
+    accessor.o = open;
+    accessor.h = high;
+    accessor.l = low;
+    accessor.c = close;
+    accessor.v = volume;
+    accessor.a = amount;
+    accessor.ap = avgprice;
+    accessor.at = amountTotal;
+    accessor.vt = volumeTotal;
+    accessor.up = updown;
+    accessor.upp = updownPercent;
+
+    return accessor;
+  }
+
+  return bind();
+};
+},{}],4:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -129,7 +244,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -171,7 +286,28 @@ module.exports = function() {
 
   return bind();
 };
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
+'use strict';
+
+module.exports = function() {
+	var date = function(d) { return d.date; },
+		avgprice = function(d) {return d.avgprice; };
+
+	function accessor(d) {
+    	return accessor.ap(d);
+	}
+
+	function bind() {
+    // TODO These methods will need to know if the variables are functions or values and execute as such
+	    accessor.d = date;
+	    accessor.ap = avgprice;
+
+   		return accessor;
+  	}
+
+  	return bind();
+};
+},{}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -221,7 +357,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -312,7 +448,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 // TODO Could these be singletons? Generally will be accessing the same data and data structures at the same time
@@ -333,11 +469,13 @@ module.exports = function() {
     aroon: require('./aroon'),
     stochastic: require('./stochastic'),
     williams: require('./williams'),
-    bollinger: require('./bollinger')
+    bollinger: require('./bollinger'),
+    afis: require('./afis'),
+    avgprice: require('./avgprice')
   };
 };
 
-},{"./adx":2,"./aroon":3,"./atrtrailingstop":4,"./bollinger":5,"./ichimoku":6,"./macd":8,"./ohlc":9,"./rsi":10,"./stochastic":11,"./tick":12,"./trade":13,"./trendline":14,"./value":15,"./volume":16,"./williams":17}],8:[function(require,module,exports){
+},{"./adx":2,"./afis":3,"./aroon":4,"./atrtrailingstop":5,"./avgprice":6,"./bollinger":7,"./ichimoku":8,"./macd":10,"./ohlc":11,"./rsi":12,"./stochastic":13,"./tick":14,"./trade":15,"./trendline":16,"./value":17,"./volume":18,"./williams":19}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -389,7 +527,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -455,7 +593,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -513,7 +651,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -578,7 +716,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -627,7 +765,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -673,7 +811,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -734,7 +872,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -786,7 +924,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -820,7 +958,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -854,7 +992,7 @@ module.exports = function() {
 
   return bind();
 };
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc, indicator_ema) {  // Injected dependencies
@@ -930,7 +1068,25 @@ function datum(date, adx, plusDi, minusDi) {
   }
 }
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
+'use strict';
+
+
+module.exports = function(round) {
+	return function(){ //Closure function..
+
+		function indicator(data, basePrice){
+			return data.map(function(d, i){
+				d.updown = d.close - basePrice;
+				d.updownPercent = round(d.updown / basePrice, 4);
+				return d;
+			});
+		}
+
+		return indicator;
+	};
+};
+},{}],22:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc) {  // Injected dependencies
@@ -1003,7 +1159,7 @@ function datum(date, up,down,oscillator, middle, overbought, oversold) {
   else return { date: date, up: null,down:null,oscillator:null, middle: null, overbought: null, oversold: null };
 }
 
-},{}],20:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc, indicator_sma) {  // Injected dependencies
@@ -1059,7 +1215,7 @@ function datum(date, atr) {
   if(atr) return { date: date, value: atr };
   else return { date: date, value: null };
 }
-},{}],21:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc, indicator_atr) {  // Injected dependencies
@@ -1112,7 +1268,7 @@ module.exports = function(indicatorMixin, accessor_ohlc, indicator_atr) {  // In
     return indicator;
   };
 };
-},{}],22:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc, indicator_sma) {  // Injected dependencies
@@ -1167,7 +1323,7 @@ function datum(date, middleBand, upperBand, lowerBand) {
   else return { date: date, middleBand: null, upperBand: null, lowerBand: null};
 }
 
-},{}],23:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc, alpha_init) {  // Injected dependencies
@@ -1219,7 +1375,7 @@ module.exports = function(indicatorMixin, accessor_ohlc, alpha_init) {  // Injec
     return indicator;
   };
 };
-},{}],24:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc) {  // Injected dependencies
@@ -1301,10 +1457,10 @@ function senkouSpanA(tenkanSen, kijunSen) {
 function average(v1, v2) {
   return (v1+v2)/2;
 }
-},{}],25:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
-module.exports = function() {
+module.exports = function(d3) {
   var indicatorMixin = require('./indicatormixin')(),
       accessor = require('../accessor')(),
       ema_init = require('./ema'),
@@ -1327,7 +1483,8 @@ module.exports = function() {
     williams: require('./williams')(indicatorMixin, accessor.ohlc, ema),
     adx: require('./adx')(indicatorMixin, accessor.ohlc, ema),
     bollinger: require('./bollinger')(indicatorMixin, accessor.ohlc, sma),
-    vwap: vwap
+    vwap: vwap,
+    afis: require('./afis')(d3.round)
    };
 };
 
@@ -1339,7 +1496,7 @@ function wilder_alpha_init(period) {
   return 1/period;
 }
 
-},{"../accessor":7,"./adx":18,"./aroon":19,"./atr":20,"./atrtrailingstop":21,"./bollinger":22,"./ema":23,"./ichimoku":24,"./indicatormixin":26,"./macd":27,"./rsi":28,"./sma":29,"./stochastic":30,"./vwap":31,"./williams":32}],26:[function(require,module,exports){
+},{"../accessor":9,"./adx":20,"./afis":21,"./aroon":22,"./atr":23,"./atrtrailingstop":24,"./bollinger":25,"./ema":26,"./ichimoku":27,"./indicatormixin":29,"./macd":30,"./rsi":31,"./sma":32,"./stochastic":33,"./vwap":34,"./williams":35}],29:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -1374,7 +1531,7 @@ module.exports = function() {
     return indicatorMixin;
   };
 };
-},{}],27:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc, indicator_ema) {  // Injected dependencies
@@ -1435,7 +1592,7 @@ function datum(date, macd, signal, difference, zero) {
   else return { date: date, macd: null, signal: null, difference: null, zero: null };
 }
 
-},{}],28:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc, indicator_ema) {  // Injected dependencies
@@ -1498,7 +1655,7 @@ function datum(date, rsi, middle, overbought, oversold) {
   if(rsi) return { date: date, rsi: rsi, middle: middle, overbought: overbought, oversold: oversold };
   else return { date: date, rsi: null, middle: null, overbought: null, oversold: null };
 }
-},{}],29:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc) {  // Injected dependencies
@@ -1557,7 +1714,7 @@ module.exports = function(indicatorMixin, accessor_ohlc) {  // Injected dependen
     return indicator;
   };
 };
-},{}],30:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc) {  // Injected dependencies
@@ -1648,7 +1805,7 @@ function datum(date, stochasticK,stochasticD, middle, overbought, oversold) {
   else return { date: date, stochasticK: null,stochasticD:null, middle: middle, overbought: overbought, oversold: oversold };
 }
 
-},{}],31:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc) {  // Injected dependencies
@@ -1693,7 +1850,7 @@ module.exports = function(indicatorMixin, accessor_ohlc) {  // Injected dependen
   };
 };
 
-},{}],32:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 module.exports = function(indicatorMixin, accessor_ohlc) {  // Injected dependencies
@@ -1765,7 +1922,7 @@ function datum(date, williams, middle, overbought, oversold) {
   else return { date: date, williams: null, middle: null, overbought: null, oversold: null };
 }
 
-},{}],33:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_adx, plot, plotMixin) {  // Injected dependencies
@@ -1810,7 +1967,7 @@ function refresh(g, accessor, x, y, plot, adxLine, plusDiLine, minusDiLine) {
   g.selectAll('path.minusDi').attr('d', minusDiLine);
 }
 
-},{}],34:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_aroon, plot, plotMixin) {  // Injected dependencies
@@ -1866,7 +2023,7 @@ function refresh(g, accessor, x, y, plot, oscLine, oscArea, middleLine, upLine, 
   g.selectAll('path.aroon.down').attr('d', downLine);
 }
 
-},{}],35:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_atrtrailingstop, plot, plotMixin) {  // Injected dependencies
@@ -1905,7 +2062,7 @@ function refresh(g, upLine, downLine) {
   g.selectAll('path.up').attr('d', upLine);
   g.selectAll('path.down').attr('d', downLine);
 }
-},{}],36:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1954,6 +2111,12 @@ module.exports = function(d3_svg_axis, accessor_value, plot, plotMixin) {  // In
     annotation.width = function(_) {
       if(!arguments.length) return width;
       width = _;
+      return annotation;
+    };
+
+    annotation.point = function(_) {
+      if(!arguments.length) return point;
+      point = _;
       return annotation;
     };
 
@@ -2075,7 +2238,7 @@ function backgroundPath(accessor, axis, height, width, point, neg) {
     }
   };
 }
-},{}],37:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_bollinger, plot, plotMixin) {  // Injected dependencies
@@ -2118,7 +2281,7 @@ function refresh(g, accessor, x, y, plot, upperLine, middleLine, lowerLine) {
   g.selectAll('path.lower').attr('d', lowerLine);
 }
 
-},{}],38:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3_scale_linear, d3_extent, accessor_ohlc, plot, plotMixin) {  // Injected dependencies
@@ -2221,15 +2384,16 @@ module.exports = function(d3_scale_linear, d3_extent, accessor_ohlc, plot, plotM
     return candlestick;
   };
 };
-},{}],39:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
-module.exports = function(d3_select, d3_event, d3_mouse, d3_dispatch, plot, plotMixin) { // Injected dependencies
+module.exports = function(d3_select, d3_event, d3_mouse, d3_dispatch, plot, plotMixin, d3_map) { // Injected dependencies
   return function() { // Closure function
     var p = {},  // Container for private, direct access mixed in variables
         dispatch = d3_dispatch('enter', 'out', 'move'),
         xAnnotation = [],
         yAnnotation = [],
+        handicap,
         verticalWireRange,
         horizontalWireRange,
         change = 0; // Track changes to this object, to know when to redraw
@@ -2247,6 +2411,8 @@ module.exports = function(d3_select, d3_event, d3_mouse, d3_dispatch, plot, plot
       plot.annotation.append(dataEnter, xAnnotation, 'x');
       plot.annotation.append(dataEnter, yAnnotation, 'y');
 
+      plot.handicap.append(dataEnter, handicap, 'x');
+
       g.selectAll('rect').data([0]).enter().append('rect').style({ fill: 'none', 'pointer-events': 'all' });
 
       crosshair.refresh(g);
@@ -2260,7 +2426,8 @@ module.exports = function(d3_select, d3_event, d3_mouse, d3_dispatch, plot, plot
           pathVerticalSelection = group.selectAll('path.vertical'),
           pathHorizontalSelection = group.selectAll('path.horizontal'),
           xAnnotationSelection = group.selectAll('g.axisannotation.x > g'),
-          yAnnotationSelection = group.selectAll('g.axisannotation.y > g');
+          yAnnotationSelection = group.selectAll('g.axisannotation.y > g'),
+          handicapSelection = group.selectAll('g.handicap.x > g');
 
       mouseSelection.attr({
           x: Math.min.apply(null, xRange),
@@ -2276,31 +2443,82 @@ module.exports = function(d3_select, d3_event, d3_mouse, d3_dispatch, plot, plot
           display(g, 'none');
           dispatch.out();
         })
-        .on('mousemove', mousemoveRefresh(pathVerticalSelection, pathHorizontalSelection,
-          xAnnotationSelection, yAnnotationSelection)
+        .on('mousemove', mousemoveRefresh(g, pathVerticalSelection, pathHorizontalSelection,
+          xAnnotationSelection, yAnnotationSelection, handicapSelection)
+        )
+        .on('touchstart', function() {
+          display(g, 'inline');
+          dispatch.enter();
+        })
+        .on('touchend', function() {
+          display(g, 'none');
+          dispatch.out();
+        })
+        .on('touchmove', touchmoveRefresh(g, pathVerticalSelection, pathHorizontalSelection,
+          xAnnotationSelection, yAnnotationSelection, handicapSelection)
         );
 
-      refresh(pathVerticalSelection, pathHorizontalSelection, xAnnotationSelection, yAnnotationSelection);
+      refresh(g, pathVerticalSelection, pathHorizontalSelection, xAnnotationSelection, yAnnotationSelection, handicapSelection);
     };
 
-    function mousemoveRefresh(pathVerticalSelection, pathHorizontalSelection,
-                              xAnnotationSelection, yAnnotationSelection) {
+    function mousemoveRefresh(g, pathVerticalSelection, pathHorizontalSelection,
+                              xAnnotationSelection, yAnnotationSelection, handicapSelection) {
       return function() {
         var coords = d3_mouse(this),
             x = p.xScale.invert(coords[0]),
             y = p.yScale.invert(coords[1]);
 
-        refresh(pathVerticalSelection.datum(x),
+        var value = false;
+        var data = g.data();
+        if(data && data.length > 0){
+          data = data[0];
+          value = d3_map(data, function(d){return d.date;}).get(x);
+
+        }
+        if(!value){
+          value = data[data.length - 1];
+        }
+
+        refresh(g, pathVerticalSelection.datum(x),
           pathHorizontalSelection.datum(y),
           xAnnotationSelection.each(plot.annotation.update(xAnnotation, coords[0])),
-          yAnnotationSelection.each(plot.annotation.update(yAnnotation, coords[1]))
+          yAnnotationSelection.each(plot.annotation.update(yAnnotation, coords[1])),
+          handicapSelection.each(plot.handicap.update(handicap, value, coords[0]))
         );
 
-        dispatch.move([x, y]);
+        dispatch.move([x, y], coords, value);
       };
     }
 
-    function refresh(xPath, yPath, xAnnotationSelection, yAnnotationSelection) {
+    function touchmoveRefresh(g, pathVerticalSelection, pathHorizontalSelection,
+                              xAnnotationSelection, yAnnotationSelection, handicapSelection) {
+      return function() {
+        d3.event.preventDefault();
+        var coords = d3_mouse(this),
+            x = p.xScale.invert(coords[0]),
+            y = p.yScale.invert(coords[1]);
+
+        var value = false;
+        var data = g.data();
+        if(data && data.length > 0){
+          data = data[0];
+          value = d3_map(data, function(d){return d.date;}).get(x);
+        }
+        if(!value){
+          value = data[data.length - 1];
+        }
+        refresh(g, pathVerticalSelection.datum(x),
+          pathHorizontalSelection.datum(y),
+          xAnnotationSelection.each(plot.annotation.update(xAnnotation, coords[0])),
+          yAnnotationSelection.each(plot.annotation.update(yAnnotation, coords[1])),
+          handicapSelection.each(plot.handicap.update(handicap, value, coords[0]))
+        );
+
+        dispatch.move([x, y], coords, value);
+      };
+    }
+
+    function refresh(g, xPath, yPath, xAnnotationSelection, yAnnotationSelection, handicapSelection) {
       var x = p.xScale,
           y = p.yScale;
 
@@ -2308,6 +2526,7 @@ module.exports = function(d3_select, d3_event, d3_mouse, d3_dispatch, plot, plot
       yPath.attr('d', horizontalPathLine(y, horizontalWireRange || x.range()));
       xAnnotationSelection.each(plot.annotation.refresh(xAnnotation));
       yAnnotationSelection.each(plot.annotation.refresh(yAnnotation));
+      handicapSelection.each(plot.handicap.refresh(handicap));
     }
 
     crosshair.xAnnotation = function(_) {
@@ -2333,6 +2552,12 @@ module.exports = function(d3_select, d3_event, d3_mouse, d3_dispatch, plot, plot
     crosshair.horizontalWireRange = function(_) {
       if(!arguments.length) return horizontalWireRange;
       horizontalWireRange = _;
+      return crosshair;
+    };
+
+    crosshair.handicap = function(_) {
+      if(!arguments.length) return handicap;
+      handicap = _;
       return crosshair;
     };
 
@@ -2367,7 +2592,186 @@ function verticalPathLine(x, range) {
     return ['M', value, range[0], 'L', value, range[range.length-1]].join(' ');
   };
 }
-},{}],40:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
+'use strict';
+
+/**
+ * TODO Refactor this to techan.plot.handicap.axis()?
+ */
+module.exports = function(d3_svg_axis, accessor_value, plot, plotMixin, d3_select,d3_map) {  // Injected dependencies
+  return function() { // Closure function
+    var p = {},
+        axis = d3_svg_axis(),
+        format,
+        height = 200,
+        width = 100,
+        translate = [0, 0],
+        book = [
+                  {class: 'time', value: '时间', format: null},
+                  {class: 'price', value: '价格', format: null},
+                  {class: 'volume', value: '成交量', format: null}
+                ];
+
+    function handicap(g) {
+      g.selectAll('g.translate').data(plot.dataMapper.array).enter()
+        .append('g').attr('class', 'translate');
+
+      handicap.refresh(g);
+    }
+
+    handicap.refresh = function(g) {
+      refresh(g, plot, p.accessor, axis, height, width, translate, book, d3_select);
+    };
+
+    handicap.axis = function(_) {
+      if(!arguments.length) return axis;
+      axis = _;
+      return handicap;
+    };
+
+    handicap.format = function(_) {
+      if(!arguments.length) return format;
+      format = _;
+      return handicap;
+    };
+
+    handicap.height = function(_) {
+      if(!arguments.length) return height;
+      height = _;
+      return handicap;
+    };
+
+    handicap.width = function(_) {
+      if(!arguments.length) return width;
+      width = _;
+      return handicap;
+    };
+
+    handicap.translate = function(_) {
+      if(!arguments.length) return translate;
+      translate = _;
+      return handicap;
+    };
+
+    handicap.book = function(_){
+      if(!arguments.length) return book;
+      book = _;
+      return handicap;
+    };
+
+    plotMixin(handicap, p).accessor(accessor_value());
+
+    return handicap;
+  };
+};
+
+function refresh(g, plot, accessor, axis, height, width, translate, book, d3_select ) {
+  var translateSelection = g.select('g.translate'),
+      dataGroup = plot.groupSelect(translateSelection, filterInvalidValues(accessor, axis.scale()));
+
+  var xPos = false;
+  var data = false;
+  g.each(function(dd){
+    xPos = this.__xPos__;
+    dd.forEach(function(d){
+      if(d.value){
+        data = d.value;
+      }
+    });
+  });
+
+  dataGroup.entry.append('path');
+  dataGroup.entry.append('text').attr('y', 3).selectAll('tspan').data(book).enter().append('tspan').attr('class', function(d){
+    return d.value ? (typeof d.value === 'function') ? 'bookvalue' : 'bookname' : 'bookname' ;
+  }).text(textValue(data, axis));
+
+  dataGroup.selection.selectAll('tspan.bookvalue').text(textValue(data, axis));
+
+  var newTranslate = [];
+  if(xPos && axis.innerTickSize() - xPos - translate[0] < width){
+    newTranslate.push(translate[0]);
+  }else{
+    newTranslate.push(axis.innerTickSize() - width - translate[0]);
+  }
+  newTranslate.push(translate[1]);
+
+  translateSelection.attr('transform', 'translate(' + newTranslate[0] + ',' + newTranslate[1] + ')');
+  dataGroup.selection.selectAll('path').attr('d', backgroundPath(accessor, axis, height, width));
+  dataGroup.selection.selectAll('tspan.bookname').call(bookTextAttributes, accessor, axis, d3_select);
+  dataGroup.selection.selectAll('tspan.bookvalue').call(textAttributes, accessor, axis, d3_select);
+}
+
+function filterInvalidValues(accessor, scale) {
+  return function(data) {
+    return data.filter(function (d) {
+      return true;
+    });
+  };
+}
+
+function bookTextAttributes(text, accessor, axis, d3_select){
+  text.attr('x', 10);
+  text.attr('dy', '1em');
+  text.each(function(d){  d3_select(this).classed(d.class, true); });
+}
+
+function textAttributes(text, accessor, axis, d3_select) {
+  text.attr('x', 20);
+  text.attr('dy', '1em');
+  text.each(function(d){
+
+    if(d.updownClass){
+      var value = this.__value__;
+      if(value){
+        var r = d.updownClass(value);
+        if(r > 0) d3_select(this).classed({'up': true, 'down': false});
+        else if( r < 0) d3_select(this).classed({'up': false, 'down': true});
+      }
+    }
+    d3_select(this).classed(d.class, true);
+  });
+}
+
+function textPosition(accessor, scale) {
+  return function(d) {
+    return scale(accessor(d));
+  };
+}
+
+function textValue(data, axis) {
+  return function(d) {
+    if(d.value){
+      var value = false;
+      var format = d.format ? d.format : (axis.tickFormat() ? axis.tickFormat() : axis.scale().tickFormat());
+      if(typeof d.value === 'function'){
+        value = data ? d.value(data) : false;
+        this.__value__ = value;
+        value = value !== undefined ? format(value) : '';
+      }else{
+        value = d.value;
+      }
+      return value;
+    }else{
+      return '';
+    }
+  };
+}
+
+function backgroundPath(accessor, axis, height, width) {
+
+   return function(d) {
+    return [
+      'M', 0, 0,
+      'l', width, 0,
+      'l', 0, height,
+      'l', -width, 0,
+      'l', 0, -height
+    ].join(' ');
+
+     };
+
+}
+},{}],44:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3_svg_area, accessor_ichimoku, plot, plotMixin) {  // Injected dependencies
@@ -2457,7 +2861,7 @@ function negate(accessor) {
 function randomID() {
   return Math.random().toString(36).substr(2, 9);
 }
-},{}],41:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3) {
@@ -2467,6 +2871,7 @@ module.exports = function(d3) {
       plotMixin = require('./plotmixin')(d3.scale.linear, d3.functor, scale.financetime, plot.barWidth),
       line = require('./line'),
       axisannotation = require('./axisannotation')(d3.svg.axis, accessor.value, plot, plotMixin),
+      handicap = require('./handicap')(d3.svg.axis, accessor.value, plot, plotMixin, d3.select, d3.map),
       svg = require('../svg')(d3);
 
   return {
@@ -2475,7 +2880,7 @@ module.exports = function(d3) {
     atrtrailingstop: require('./atrtrailingstop')(accessor.atrtrailingstop, plot, plotMixin),
     axisannotation: axisannotation,
     candlestick: require('./candlestick')(d3.scale.linear, d3.extent, accessor.ohlc, plot, plotMixin),
-    crosshair: require('./crosshair')(d3.select, d3_event, d3.mouse, d3.dispatch, plot, plotMixin),
+    crosshair: require('./crosshair')(d3.select, d3_event, d3.mouse, d3.dispatch, plot, plotMixin, d3.map),
     ema: line(accessor.value, plot, plotMixin),
     ichimoku: require('./ichimoku')(d3.svg.area, accessor.ichimoku, plot, plotMixin),
     ohlc: require('./ohlc')(d3.scale.linear, d3.extent, accessor.ohlc, plot, plotMixin),
@@ -2495,7 +2900,9 @@ module.exports = function(d3) {
     stochastic: require('./stochastic')(accessor.stochastic, plot, plotMixin),
     williams: require('./williams')(accessor.williams, plot, plotMixin),
     bollinger: require('./bollinger')(accessor.bollinger, plot, plotMixin),
-    vwap: line(accessor.value, plot, plotMixin)
+    vwap: line(accessor.value, plot, plotMixin),
+    handicap: handicap,
+    avgprice: line(accessor.avgprice, plot, plotMixin)
   };
 };
 
@@ -2503,7 +2910,7 @@ function d3_event() {
   return d3.event;
 }
 
-},{"../accessor":7,"../scale":56,"../svg":59,"./adx":33,"./aroon":34,"./atrtrailingstop":35,"./axisannotation":36,"./bollinger":37,"./candlestick":38,"./crosshair":39,"./ichimoku":40,"./line":42,"./macd":43,"./ohlc":44,"./plot":45,"./plotmixin":46,"./rsi":47,"./stochastic":48,"./supstance":49,"./tick":50,"./tradearrow":51,"./trendline":52,"./volume":53,"./williams":54}],42:[function(require,module,exports){
+},{"../accessor":9,"../scale":60,"../svg":63,"./adx":36,"./aroon":37,"./atrtrailingstop":38,"./axisannotation":39,"./bollinger":40,"./candlestick":41,"./crosshair":42,"./handicap":43,"./ichimoku":44,"./line":46,"./macd":47,"./ohlc":48,"./plot":49,"./plotmixin":50,"./rsi":51,"./stochastic":52,"./supstance":53,"./tick":54,"./tradearrow":55,"./trendline":56,"./volume":57,"./williams":58}],46:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_value, plot, plotMixin, showZero) {  // Injected dependencies
@@ -2548,7 +2955,7 @@ function refresh(g, accessor, x, y, plot, svgLine, showZero) {
     g.selectAll('path.zero').attr('d', plot.horizontalPathLine(x, accessor.z, y));
   }
 }
-},{}],43:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_macd, plot, plotMixin) {  // Injected dependencies
@@ -2614,7 +3021,7 @@ function refresh(g, accessor, x, y, plot, differenceGenerator, macdLine, signalL
   g.selectAll('path.macd').attr('d', macdLine);
   g.selectAll('path.signal').attr('d', signalLine);
 }
-},{}],44:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3_scale_linear, d3_extent, accessor_ohlc, plot, plotMixin) {  // Injected dependencies
@@ -2670,7 +3077,7 @@ module.exports = function(d3_scale_linear, d3_extent, accessor_ohlc, plot, plotM
     return ohlc;
   };
 };
-},{}],45:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3_svg_line, d3_select) {
@@ -2858,11 +3265,12 @@ module.exports = function(d3_svg_line, d3_select) {
             // Transform the data to values for each annotation, only if we have accessor and scale
             var y = argumentLength > 3 ? scale(accessor(d)) : null;
 
-            return annotations.map(function(annotation) {
+            var z = annotations.map(function(annotation) {
               var value = argumentLength > 3 ? annotation.axis().scale().invert(y) : null;
               // Only ever 1 data point per annotation
               return [{ value: value }];
             });
+            return z;
           }
         );
 
@@ -2887,11 +3295,43 @@ module.exports = function(d3_svg_line, d3_select) {
           annotations[this.__annotation__].refresh(d3_select(this));
         };
       }
+    },
+
+    handicap: {
+      append: function(selection, handicap, clazz, accessor, scale) {
+        var argumentsLength = arguments.length;
+
+        var handicapSelection = selection.append('g').attr('class', 'handicap ' + clazz)
+                                  .selectAll('g').data(function(d){
+                                      var y = argumentsLength > 3 ? scale(accessor(d)) : null;
+                                      var z = handicap ? [[{ value: argumentsLength > 3 ? handicap.axis().scale.invert(y) : null}]] : [];
+                                      return z;
+                                  });
+
+        handicapSelection.enter().append('g').attr('class', function(d, i) {return i;})
+        .each(function(d, i){
+          handicap(d3_select(this));
+        });
+
+      },
+      update: function(handicap, value, xPos){
+        return function(d) {
+          this.__xPos__ = xPos;
+          d[0].value = value;
+        };
+      },
+      refresh: function(handicap){
+        return function(){
+          if(handicap){
+            handicap.refresh(d3_select(this));
+          }
+        };
+      }
     }
   };
 };
 
-},{}],46:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 'use strict';
 
 /**
@@ -2975,7 +3415,7 @@ module.exports = function(d3_scale_linear, d3_functor, techan_scale_financetime,
     return plotMixin;
   };
 };
-},{}],47:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_rsi, plot, plotMixin) {  // Injected dependencies
@@ -3016,7 +3456,7 @@ function refresh(g, accessor, x, y, plot, rsiLine) {
   g.selectAll('path.oversold').attr('d', plot.horizontalPathLine(accessor.d, x, accessor.os, y));
   g.selectAll('path.rsi').attr('d', rsiLine);
 }
-},{}],48:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_stochastic, plot, plotMixin) {  // Injected dependencies
@@ -3060,7 +3500,7 @@ function refresh(g, accessor, x, y, plot, stochUpLine, stochDownLine) {
   g.selectAll('path.stochastic.down').attr('d', stochDownLine);
 }
 
-},{}],49:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3_behavior_drag, d3_event, d3_select, d3_dispatch, accessor_value, plot, plotMixin) {  // Injected dependencies
@@ -3146,7 +3586,7 @@ function supstancePath(accessor, x, y) {
     return path.join(' ');
   };
 }
-},{}],50:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3_scale_linear, d3_extent, accessor_tick, plot, plotMixin) {  // Injected dependencies
@@ -3201,7 +3641,7 @@ module.exports = function(d3_scale_linear, d3_extent, accessor_tick, plot, plotM
     return tick;
   };
 };
-},{}],51:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3_select, d3_functor, d3_mouse, d3_dispatch, accessor_trade, plot, plotMixin, svg_arrow) {  // Injected dependencies
@@ -3300,7 +3740,7 @@ module.exports = function(d3_select, d3_functor, d3_mouse, d3_dispatch, accessor
     return tradearrow;
   };
 };
-},{}],52:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3_behavior_drag, d3_event, d3_select, d3_dispatch, accessor_trendline, plot, plotMixin) {  // Injected dependencies
@@ -3420,7 +3860,7 @@ function trendlineEnd(accessor_x, x, accessor_y, y) {
     cy: function(d) { return y(accessor_y(d)); }
   };
 }
-},{}],53:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_volume, plot, plotMixin) {  // Injected dependencies
@@ -3475,7 +3915,7 @@ module.exports = function(accessor_volume, plot, plotMixin) {  // Injected depen
     return volume;
   };
 };
-},{}],54:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 module.exports = function(accessor_williams, plot, plotMixin) {  // Injected dependencies
@@ -3509,7 +3949,7 @@ function refresh(g, accessor, x, y, plot, upLine) {
   g.selectAll('path.williams.up').attr('d', upLine);
 }
 
-},{}],55:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 'use strict';
 
 /*
@@ -3808,38 +4248,38 @@ module.exports = function(d3_scale_linear, d3_time, d3_bisect, techan_util_rebin
         864e5   // 1-day
       ];
 
-  var dayFormat = d3_time.format('%b %e'),
+  var dayFormat = d3_time.format('%m-%d'),
       yearFormat = d3_time.format.multi([
-        ['%b %Y', function(d) { return d.getMonth(); }],
+        ['%Y-%m', function(d) { return d.getMonth(); }],
         ['%Y', function() { return true; }]
       ]),
       intradayFormat = d3_time.format.multi([
         [":%S", function(d) { return d.getSeconds(); }],
-        ["%I:%M", function(d) { return d.getMinutes(); }],
-        ["%I %p", function () { return true; }]
+        ["%H:%M", function(d) { return d.getMinutes(); }],
+        ["%H:%M", function () { return true; }]
       ]),
       genericFormat = [d3_time.second, 1, d3_time.format.multi([
           [":%S", function(d) { return d.getSeconds(); }],
-          ["%I:%M", function(d) { return d.getMinutes(); }],
-          ["%I %p", function(d) { return d.getHours(); }],
+          ["%H:%M", function(d) { return d.getMinutes(); }],
+          ["%H:%M", function(d) { return d.getHours(); }],
           ['%b %e', function() { return true; }]
         ])
       ];
 
-  var dayFormatUtc = d3_time.format.utc('%b %e'),
+  var dayFormatUtc = d3_time.format.utc('%m-%d'),
       yearFormatUtc = d3_time.format.utc.multi([
-        ['%b %Y', function(d) { return d.getUTCMonth(); }],
+        ['%Y-%m', function(d) { return d.getUTCMonth(); }],
         ['%Y', function() { return true; }]
       ]),
       intradayFormatUtc = d3_time.format.utc.multi([
         [":%S", function(d) { return d.getUTCSeconds(); }],
-        ["%I:%M", function(d) { return d.getUTCMinutes(); }],
-        ["%I %p", function () { return true; }]
+        ["%H:%M", function(d) { return d.getUTCMinutes(); }],
+        ["%H:%M", function () { return true; }]
       ]),
       genericFormatUtc = [d3_time.second, 1, d3_time.format.utc.multi([
           [":%S", function(d) { return d.getUTCSeconds(); }],
-          ["%I:%M", function(d) { return d.getUTCMinutes(); }],
-          ["%I %p", function(d) { return d.getUTCHours(); }],
+          ["%H:%M", function(d) { return d.getUTCMinutes(); }],
+          ["%H:%M", function(d) { return d.getUTCHours(); }],
           ['%b %e', function() { return true; }]
         ])
       ];
@@ -3901,7 +4341,7 @@ module.exports = function(d3_scale_linear, d3_time, d3_bisect, techan_util_rebin
   return techan_scale_financetime;
 };
 
-},{}],56:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3) {
@@ -3928,10 +4368,21 @@ module.exports = function(d3) {
         accessor = accessor || accessors.value();
         return financetime().domain(data.map(accessor.d));
       },
-
       atr: function(data, accessor) {
         accessor = accessor || accessors.value();
         return pathScale(d3, data, accessor, 0.04);
+      },
+
+      niceDomain: function(domain, base){
+        var ms = Math.max(Math.abs(domain[0] - base), Math.abs(domain[1] - base));
+        return [base - ms, base + ms];
+      },
+
+      tickValues: function(domain, base, step, nice){
+        var ms = Math.max(Math.abs(domain[0] - base), Math.abs(domain[1] - base));
+        var yd = [base - ms, base + ms];
+        var st = ((ms  / step * 2 / nice ).toFixed(0) * nice).toFixed(2) ;
+        return d3.merge([d3.range( base - st, yd[0], 0 - st), d3.range(base, yd[1], st)]).sort();
       },
 
       ichimoku: function(data, accessor) {
@@ -4076,7 +4527,7 @@ function mapReduceFilter(data, map) {
     .filter(function(d) { return d !== null; }); // Remove nulls
 }
 
-},{"../accessor":7,"../util":61,"./financetime":55,"./zoomable":57}],57:[function(require,module,exports){
+},{"../accessor":9,"../util":65,"./financetime":59,"./zoomable":61}],61:[function(require,module,exports){
 'use strict';
 
 /**
@@ -4131,7 +4582,7 @@ module.exports = function() {
 
   return zoomable;
 };
-},{}],58:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3_functor) {  // Injected dependencies
@@ -4223,7 +4674,7 @@ module.exports = function(d3_functor) {  // Injected dependencies
     return arrow;
   };
 };
-},{}],59:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 'use strict';
 
 module.exports = function(d3) {
@@ -4231,7 +4682,7 @@ module.exports = function(d3) {
     arrow: require('./arrow')(d3.functor)
   };
 };
-},{"./arrow":58}],60:[function(require,module,exports){
+},{"./arrow":62}],64:[function(require,module,exports){
 'use strict';
 
 var _d3;
@@ -4245,13 +4696,13 @@ module.exports = (function(d3) {
   return {
     version: require('../build/version'),
     accessor: require('./accessor')(),
-    indicator: require('./indicator')(),
+    indicator: require('./indicator')(d3),
     plot: require('./plot')(d3),
     scale: require('./scale')(d3),
     svg: require('./svg')(d3)
   };
 })(_d3);
-},{"../build/version":1,"./accessor":7,"./indicator":25,"./plot":41,"./scale":56,"./svg":59,"d3":"d3"}],61:[function(require,module,exports){
+},{"../build/version":1,"./accessor":9,"./indicator":28,"./plot":45,"./scale":60,"./svg":63,"d3":"d3"}],65:[function(require,module,exports){
 'use strict';
 
 module.exports = function() {
@@ -4283,5 +4734,5 @@ function doRebind(target, source, method, postSetCallback) {
     return value === source ? target : value;
   };
 }
-},{}]},{},[60])(60)
+},{}]},{},[64])(64)
 });

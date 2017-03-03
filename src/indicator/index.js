@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function() {
+module.exports = function(d3) {
   var indicatorMixin = require('./indicatormixin')(),
       accessor = require('../accessor')(),
       ema_init = require('./ema'),
@@ -23,7 +23,8 @@ module.exports = function() {
     williams: require('./williams')(indicatorMixin, accessor.ohlc, ema),
     adx: require('./adx')(indicatorMixin, accessor.ohlc, ema),
     bollinger: require('./bollinger')(indicatorMixin, accessor.ohlc, sma),
-    vwap: vwap
+    vwap: vwap,
+    afis: require('./afis')(d3.round)
    };
 };
 

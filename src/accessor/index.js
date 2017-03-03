@@ -18,6 +18,8 @@ module.exports = function() {
     aroon: require('./aroon'),
     stochastic: require('./stochastic'),
     williams: require('./williams'),
-    bollinger: require('./bollinger')
+    bollinger: require('./bollinger'),
+    afis: require('./afis'),
+    avgprice: require('./avgprice')
   };
 };

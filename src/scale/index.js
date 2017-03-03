@@ -24,10 +24,21 @@ module.exports = function(d3) {
         accessor = accessor || accessors.value();
         return financetime().domain(data.map(accessor.d));
       },
-
       atr: function(data, accessor) {
         accessor = accessor || accessors.value();
         return pathScale(d3, data, accessor, 0.04);
+      },
+
+      niceDomain: function(domain, base){
+        var ms = Math.max(Math.abs(domain[0] - base), Math.abs(domain[1] - base));
+        return [base - ms, base + ms];
+      },
+
+      tickValues: function(domain, base, step, nice){
+        var ms = Math.max(Math.abs(domain[0] - base), Math.abs(domain[1] - base));
+        var yd = [base - ms, base + ms];
+        var st = ((ms  / step * 2 / nice ).toFixed(0) * nice).toFixed(2) ;
+        return d3.merge([d3.range( base - st, yd[0], 0 - st), d3.range(base, yd[1], st)]).sort();
       },
 
       ichimoku: function(data, accessor) {

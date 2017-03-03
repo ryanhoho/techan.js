@@ -49,6 +49,12 @@ module.exports = function(d3_svg_axis, accessor_value, plot, plotMixin) {  // In
       return annotation;
     };
 
+    annotation.point = function(_) {
+      if(!arguments.length) return point;
+      point = _;
+      return annotation;
+    };
+
     annotation.translate = function(_) {
       if(!arguments.length) return translate;
       translate = _;

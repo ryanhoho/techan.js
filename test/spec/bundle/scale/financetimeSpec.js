@@ -228,8 +228,8 @@ techanModule('scale/financetime', function(specBuilder) {
 
         it('Then default tickFormat after ticks invoke should be day', function() {
           financetime.ticks();
-          expect(financetime.tickFormat()(new Date(2012,0,20))).toEqual('Jan 20');
-          expect(financetime.tickFormat()(new Date(2012,3,3))).toEqual('Apr  3');
+          expect(financetime.tickFormat()(new Date(2012,0,20))).toEqual('01-20');
+          expect(financetime.tickFormat()(new Date(2012,3,3))).toEqual('04-03');
         });
 
         describe('And copied', function() {
@@ -548,7 +548,7 @@ techanModule('scale/financetime', function(specBuilder) {
             it('Then tickFormat should be intraday format', function() {
               expect(financetime.tickFormat()(new Date(1000))).toEqual(':01');
               expect(financetime.tickFormat()(new Date(2014, 1, 24, 9, 35))).toEqual('09:35');
-              expect(financetime.tickFormat()(new Date(2014, 1, 1, 0, 0, 0, 0))).toEqual('12 AM');
+              expect(financetime.tickFormat()(new Date(2014, 1, 1, 0, 0, 0, 0))).toEqual('00:00');
             });
           });
 
@@ -677,8 +677,8 @@ techanModule('scale/financetime', function(specBuilder) {
 
         it('Then default tickFormat after ticks invoke should be day', function() {
           financetime.ticks();
-          expect(financetime.tickFormat()(date.parseZonedIso8601('2012-01-20T00:00:00+1100'))).toEqual('Jan 19');
-          expect(financetime.tickFormat()(date.parseZonedIso8601('2012-04-03T00:00:00+1100'))).toEqual('Apr  2');
+          expect(financetime.tickFormat()(date.parseZonedIso8601('2012-01-20T00:00:00+1100'))).toEqual('01-19');
+          expect(financetime.tickFormat()(date.parseZonedIso8601('2012-04-03T00:00:00+1100'))).toEqual('04-02');
         });
 
         describe('And initialised with 1 item', function() {
@@ -693,7 +693,7 @@ techanModule('scale/financetime', function(specBuilder) {
 
             it('Then tickFormat should be generic format', function() {
               expect(financetime.tickFormat()(new Date(1000))).toEqual(':01');
-              expect(financetime.tickFormat()(date.parseZonedIso8601('2014-01-24T00:00:00+1100'))).toEqual('01 PM');
+              expect(financetime.tickFormat()(date.parseZonedIso8601('2014-01-24T00:00:00+1100'))).toEqual('13:00');
             });
           });
         });
@@ -711,8 +711,8 @@ techanModule('scale/financetime', function(specBuilder) {
 
             it('Then tickFormat should be intraday format', function() {
               expect(financetime.tickFormat()(new Date(1000))).toEqual(':01');
-              expect(financetime.tickFormat()(date.parseZonedIso8601('2014-01-24T09:35:00+1100'))).toEqual('10:35');
-              expect(financetime.tickFormat()(date.parseZonedIso8601('2014-01-01T00:00:00+1100'))).toEqual('01 PM');
+              expect(financetime.tickFormat()(date.parseZonedIso8601('2014-01-24T09:35:00+1100'))).toEqual('22:35');
+              expect(financetime.tickFormat()(date.parseZonedIso8601('2014-01-01T00:00:00+1100'))).toEqual('13:00');
             });
           });
         });
